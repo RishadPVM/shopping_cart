@@ -1,0 +1,84 @@
+<section>
+    <div class="container">
+        <table class="table ">
+  <thead>
+    <tr>
+      <th scope="col">Item</th>
+      <th scope="col">Titel</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Price</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {{#each products}}
+    <tr>
+      <th> <img style="width: 55px;height: 50px;" src="/product-image/{{this.product._id}}.jpg" alt=""></th>
+      <td>{{this.product.name}}</td>
+      <td>
+           <button class="mr-3 btn btn-secondary"onclick="cartcount('{{this._id}}','{{this.product._id}}','{{../user._id}}',-1)">-</button>
+           <span id="{{this.product._id}}">{{this.quantity}}</span>
+           <button class="ml-3 btn btn-secondary"onclick="cartcount('{{this._id}}','{{this.product._id}}','{{../user._id}}',1)">+</button>
+      </td>
+      <td>{{this.product.price}}</td>
+      <td>
+        <button class="btn btn-danger"onclick="deletePro('{{this._id}}','{{this.product._id}}')">Remove</button>
+      </td>
+    </tr>
+   {{/each}} 
+  </tbody>
+</table>
+<hr>
+<div class="float-right pr-5">
+    <h4 class="float-left mr-5 ">TOTEL: RS. <span class="ml-2" id="tolel">{{TotrlAmont}}</span></h4><br>
+     <a href="/plceOrder"class="mt-2 btn btn-success" style="width:100%;">Place Order</a>
+</div>
+
+    </div>
+</section>
+
+
+<script>
+  function cartcount(cartId,proId,userID,count){
+    quantity=Number(document.getElementById(proId).innerHTML)
+    count=Number(count)
+    $.ajax({
+      url:'/Change_cart_quantity',
+      data:{
+        user:userID,
+        cart:cartId,
+        product:proId,
+        count:count,
+        quantity:quantity
+      },
+      method:'post',
+      success(response){
+        if(response.removeProduct){
+          alert("remove product in cart")
+          location.reload()
+        }else{
+          document.getElementById(proId).innerHTML=quantity+count
+          document.getElementById('tolel').innerHTML=response.TotrlAmont
+        }
+      }
+    })
+  }
+
+
+  function deletePro(cartId,proId){
+    $.ajax({
+      url:'/Delete_cart_product',
+      data:{
+        cart:cartId,
+        product:proId
+      },
+      method:'post',
+      success(response){
+        if(response.removeProduct){
+          alert("remove product in cart")
+          location.reload()
+        }
+      }
+    })
+  }
+</script>

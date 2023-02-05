@@ -1,0 +1,47 @@
+<section>
+    <div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-12">
+       
+            <form action="/admin/update-product/{{product._id}}" method="post" enctype="multipart/form-data">
+                <h1 class="text-center mt-3">Edit Product</h1>
+
+                <div class="form-group">
+                    <label for="">Name</label>
+                    <input type="text" class="form-control" name="name"  value="{{product.name}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="">Category</label>
+                    <input type="text" class="form-control" name="Category" value="{{product.Category}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="">Price</label>
+                    <input type="text" class="form-control" name="price" value="{{product.price}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="">Description</label>
+                    <input type="text" class="form-control" name="Description" value="{{product.Description}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="">Image</label>
+                    <img src="/product-image/{{product._id}}.jpg" alt="product image" style="width:100px; height:auto;"id="edit-img"class="p-2">
+                    <input type="file" class="form-control" name="image" onchange="viewimg(event)"> 
+                </div>
+
+                <button type="submit" class="btn btn-primary mt-2">Submit</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+</section>
+
+<script>
+    function viewimg(event){
+        document.getElementById("edit-img").src=URL.createObjectURL(event.target.files[0])
+    }
+</script>
